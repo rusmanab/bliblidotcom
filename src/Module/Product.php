@@ -12,5 +12,11 @@ class Product extends ModuleAbstract{
         return $this->post($url, [], "POST");
     }
 
+    public function getItemDetail($parameters = []){
+        $url = "/proxy/mta/api/businesspartner/v1/product/detailProduct";
+
+        return $this->post($url, $parameters, "GET");
+    }
+
     
 }
