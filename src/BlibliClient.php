@@ -7,7 +7,6 @@ use Rusmanab\Blibli\Module\Product;
 
 class BlibliClient{
 
-    protected $baseUrl = "https://api.blibli.com/v2/";
     protected $module = [];
     protected $mtaApi = ""; 
     protected $mtaPwd = ""; 
@@ -17,7 +16,7 @@ class BlibliClient{
     protected $partnerUname= "";
     protected $partnerKey= "";
     
-    
+
     public function __construct()
     {        
         $this->module['product']  = new Product($this);
@@ -68,12 +67,7 @@ class BlibliClient{
             'Api-Seller-Key: '. $this->partnerKey,
         );
         
-        $params = array(
-            'requestId' => 'bar',   
-            'businessPartnerCode' => $this->partnerCode,
-            'username' => $this->partnerUname,
-            'channelId' => $this->channelId,
-        );
+        $params = array('foo' => 'bar');
         $uri = $uri . '?' . http_build_query($params);
 
         $jsonBody = json_encode($data);
