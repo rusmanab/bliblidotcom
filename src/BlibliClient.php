@@ -2,24 +2,27 @@
 namespace Rusmanab\Blibli;
 
 use InvalidArgumentException;
+use Rusmanab\Blibli\Module\Category;
 use Rusmanab\Blibli\Module\Product;
 
 
 class BlibliClient{
-
+    //protected $baseUrl = "https://api-uata.gdn-app.com/v2/"; // "https://api.blibli.com/v2/";
+    protected $baseUrl = "https://api.blibli.com/v2/";
     protected $module = [];
-    protected $mtaApi = ""; 
-    protected $mtaPwd = ""; 
+    protected $mtaApi = "";
+    protected $mtaPwd = "";
     protected $channelId = "";
 
     protected $partnerCode = "";
     protected $partnerUname= "";
     protected $partnerKey= "";
-    
+
 
     public function __construct()
-    {        
+    {
         $this->module['product']  = new Product($this);
+        $this->module['category']  = new Category($this);
     }
 
     public function setMtaApi($mtaApi){
@@ -32,7 +35,7 @@ class BlibliClient{
     public function setChannelId($channelId){
         $this->channelId = $channelId;
     }
-    
+
     public function setPartnerCode($partnerCode){
         $this->partnerCode = $partnerCode;
     }
@@ -42,7 +45,10 @@ class BlibliClient{
     public function setPartnerKey($partnerKey){
         $this->partnerKey = $partnerKey;
     }
-    
+
+    public function getPartnerCode(){
+        return $this->partnerCode;
+    }
 
     public function __get(string $name)
     {
@@ -52,10 +58,10 @@ class BlibliClient{
 
         return $this->module[$name];
     }
-    
 
-    
-    
+
+
+
     public function send($uri, $data = [], $methode = "POST"){
 
         $uri = $this->baseUrl . $uri;
@@ -63,14 +69,26 @@ class BlibliClient{
         $header = array(
             'Content-Type: application/json',
             'Accept: application/json',
-            'Authorization: Basic '. base64_encode($this->mtaApi.":". $this->mtaPwd),  
+            'Authorization: Basic '. base64_encode($this->mtaApi.":". $this->mtaPwd),
             'Api-Seller-Key: '. $this->partnerKey,
         );
-        
-        $params = array('foo' => 'bar');
+
+        $params = array(
+            'requestId' => uniqid(),
+            'businessPartnerCode' => $this->partnerCode,
+            'username' => $this->partnerUname,
+            'channelId' => $this->channelId,
+            'storeId'   => 10001,
+            'storeCode' => $this->partnerCode
+        );
+        if ( $methode == "GET" ){
+            $params = array_merge($params,$data);
+        }
         $uri = $uri . '?' . http_build_query($params);
 
         $jsonBody = json_encode($data);
+        //echo "<pre>";
+        //print_r($jsonBody);
 
         $connection = curl_init();
         curl_setopt($connection, CURLOPT_URL, $uri);
@@ -90,7 +108,8 @@ class BlibliClient{
         $response = curl_exec($connection);
 
         curl_close($connection);
-
+       // print_r($response);
+        //exit;
         if ( $response ){
             $json_decode = json_decode($response);
         }else{
