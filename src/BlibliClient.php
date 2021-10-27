@@ -4,10 +4,10 @@ namespace Rusmanab\Blibli;
 use InvalidArgumentException;
 use Rusmanab\Blibli\Module\Category;
 use Rusmanab\Blibli\Module\Product;
-
+use Rusmanab\Blibli\Module\Order;
 
 class BlibliClient{
-    //protected $baseUrl = "https://api-uata.gdn-app.com/v2/"; // "https://api.blibli.com/v2/";
+    ///protected $baseUrl = "https://api-uata.gdn-app.com/v2/"; // "https://api.blibli.com/v2/";
     protected $baseUrl = "https://api.blibli.com/v2/";
     protected $module = [];
     protected $mtaApi = "";
@@ -23,6 +23,7 @@ class BlibliClient{
     {
         $this->module['product']  = new Product($this);
         $this->module['category']  = new Category($this);
+        $this->module['order']  = new Order($this);
     }
 
     public function setMtaApi($mtaApi){
@@ -44,6 +45,10 @@ class BlibliClient{
     }
     public function setPartnerKey($partnerKey){
         $this->partnerKey = $partnerKey;
+    }
+
+    public function setStagging(){
+        $this->baseUrl = "https://api-uata.gdn-app.com/v2/";
     }
 
     public function getPartnerCode(){

@@ -104,5 +104,13 @@ class Order extends ModuleAbstract{
         return $this->post($url, $parameters);
     }
 
+    // for stagging only
+    public function orderCreation($parameters = []){
+        $url = "/proxy/sas/create-order-v2";
+
+        return $this->post($url, $parameters);
+    }
+
+
 }
 

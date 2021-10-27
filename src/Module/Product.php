@@ -54,5 +54,18 @@ class Product extends ModuleAbstract{
         return $this->post($url, $parameters, "GET");
     }
 
+    public function setArchive($parameters = []){
+        $url = "/proxy/seller/v1/products/statuses/archive";
 
+        return $this->post($url, $parameters);
+    }
+
+
+    /** Stagging Only */
+    public function activatedProduk($parameters = []){
+
+        $url = "/proxy/sas/product-approve-v2";
+
+        return $this->post($url, $parameters);
+    }
 }
