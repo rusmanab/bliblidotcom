@@ -18,10 +18,10 @@ class Order extends ModuleAbstract{
 
         return $this->post($url, $parameters, "GET");
     }
-    public function combineShipping(){
+    public function combineShipping($parameters = []){
         $url = "/proxy/mta/api/businesspartner/v1/order/getCombineShipping";
 
-        return $this->post($url, [], "GET");
+        return $this->post($url,$parameters, "GET");
 
     }
 
@@ -32,10 +32,10 @@ class Order extends ModuleAbstract{
 
     }
     public function getshippingLabel ($parameter = []){
-        $package_id = $parameter['package_id'];
+        $package_id = $parameter['package-id'];
         $url = "/proxy/seller/v1/orders/$package_id/shippingLabel";
 
-        return $this->post($url, [], "GET");
+        return $this->post($url, $parameter, "GET");
     }
 
     /** Order Operation */

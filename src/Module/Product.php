@@ -31,12 +31,7 @@ class Product extends ModuleAbstract{
         return $this->post($url, $parameters, "GET");
     }
 
-    public function create($parameters = []){
 
-        $url = "/proxy/seller/v1/products/async";
-
-        return $this->post($url, $parameters,"POST");
-    }
 
     public function getBrands($parameters = []){
         $url = "/proxy/mta/api/businesspartner/v2/product/getBrands";
@@ -60,7 +55,11 @@ class Product extends ModuleAbstract{
         return $this->post($url, $parameters);
     }
 
+    public function setUnArchive($parameters = []){
+        $url = "/proxy/seller/v1/products/statuses/unarchive";
 
+        return $this->post($url, $parameters);
+    }
     /** Stagging Only */
     public function activatedProduk($parameters = []){
 
@@ -68,4 +67,21 @@ class Product extends ModuleAbstract{
 
         return $this->post($url, $parameters);
     }
+    /** End Stagging Only */
+    public function create($parameters = []){
+
+        $url = "/proxy/seller/v1/products/async";
+        return $this->post($url, $parameters,"POST");
+    }
+    public function updateProduct($parameters = []){
+
+        $url = "/proxy/mta/api/businesspartner/v1/product/updateProduct";
+        return $this->post($url, $parameters);
+    }
+    public function updateProductDetail($parameters = []){
+
+        $url = "/proxy/mta/api/businesspartner/v1/product/updateDetailProduct";
+        return $this->post($url, $parameters);
+    }
+
 }
