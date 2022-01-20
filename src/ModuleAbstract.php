@@ -23,4 +23,9 @@ abstract class ModuleAbstract{
         $request = $this->client->printLabel($uri);
         return $request;
     }
+    public function put($uri, $parameters)
+    {
+        $request = $this->client->put($uri, $parameters);
+        return $request;
+    }
 }

@@ -60,14 +60,7 @@ class Product extends ModuleAbstract{
 
         return $this->post($url, $parameters);
     }
-    /** Stagging Only */
-    public function activatedProduk($parameters = []){
-
-        $url = "/proxy/sas/product-approve-v2";
-
-        return $this->post($url, $parameters);
-    }
-    /** End Stagging Only */
+    
     public function create($parameters = []){
 
         $url = "/proxy/seller/v1/products/async";
@@ -83,5 +76,34 @@ class Product extends ModuleAbstract{
         $url = "/proxy/mta/api/businesspartner/v1/product/updateDetailProduct";
         return $this->post($url, $parameters);
     }
+
+    public function submitionLit($parameters = []){     
+
+        $url = "/proxy/seller/v1/product-submissions/filter";        
+        return $this->post($url, $parameters);
+    }
+    public function updateStok($parameters = []){
+        $blibliSku = $parameters['sku'];
+        unset($parameters['sku']);
+        $url = "proxy/seller/v1/products/".$blibliSku."/stock";
+
+        return $this->put($url, $parameters,"PUT");
+    }
+
+    /** Stagging Only */
+    public function activatedProduk($parameters = []){
+
+        $url = "/proxy/sas/product-approve-v2";
+
+        return $this->post($url, $parameters);
+    }
+
+    public function activatedProdukByProductCode($parameters = []){
+
+        $url = "/proxy/sas/product-approve";
+
+        return $this->post($url, $parameters);
+    }
+    /** End Stagging Only */
 
 }

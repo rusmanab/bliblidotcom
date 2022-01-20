@@ -146,4 +146,52 @@ class BlibliClient{
 
         return $response;
     }
+
+    public function put($uri, $data = []){
+
+        $uri = $this->baseUrl . $uri;
+
+        //$data = http_build_query($data);
+        $data = json_encode($data);
+
+        $header = array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($data),
+            'Accept: application/json',
+            'Authorization: Basic '. base64_encode($this->mtaApi.":". $this->mtaPwd),
+            'Api-Seller-Key: '. $this->partnerKey,
+        );
+
+        $params = array(
+            'requestId' => uniqid(),
+            'businessPartnerCode' => $this->partnerCode,
+            'username' => $this->partnerUname,
+            'channelId' => $this->channelId,
+            'storeId'   => 10001,
+            'storeCode' => $this->partnerCode
+        );
+
+
+        $uri = $uri . '?' . http_build_query($params);
+        
+        $connection = curl_init();
+        curl_setopt($connection, CURLOPT_URL, $uri);
+        curl_setopt($connection, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($connection, CURLOPT_CUSTOMREQUEST, "PUT");
+        curl_setopt($connection, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($connection, CURLOPT_RETURNTRANSFER, 1);
+
+        $response = curl_exec($connection);
+
+        curl_close($connection);
+       // print_r($response);
+        //exit;
+        if ( $response ){
+            $json_decode = json_decode($response);
+        }else{
+            return false;
+        }
+
+        return $json_decode;
+    }
 }
